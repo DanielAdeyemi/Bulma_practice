@@ -7,4 +7,15 @@ gulp.task('sass', function() {
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./css'))
     .pipe(browserSync.stream());
-})
+});
+
+gulp.task('serve', ['sass'], function() {
+  browserSync.init({
+    server: "./"
+  })
+
+  gulp.watch("./sass/main.sass", ['sass']);
+  gulp.watch("./*.html").on('change', browserSync.reload);
+});
+
+gulp.task('default', ['serve']);
